@@ -35,7 +35,7 @@ public class UserMenu {
                     }
                 } else if (choice == 2) {
                     System.out.println("正在查看购物车。");
-                    // TODO: 实现查看购物车界面的逻辑
+                    ShoppingCartMenu.display(ioIn,loggedInAccount);
                 } else if (choice == 3) {
                     System.out.println("正在查看历史订单历史订单。");
                     // TODO: 实现查看历史订单界面的逻辑
