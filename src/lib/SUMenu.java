@@ -22,11 +22,11 @@ public class SUMenu {
                     System.out.println("正在进入书籍管理系统");
                     BooksFunction.displayMenu(ioIn);
                 } else if (choice == 2) {
-                    System.out.println("正在查看购物车。");
-                    // TODO: 实现查看购物车界面的逻辑
+                    System.out.println("正在进入订单管理系统");
+                    // TODO: 实现对指定用户的订单的管理or实现对订单统一管理
                 } else if (choice == 3) {
-                    System.out.println("正在查看历史订单历史订单。");
-                    // TODO: 实现查看历史订单界面的逻辑
+                    System.out.println("正在进入用户管理系统");
+                    // TODO: 对用户的账号进行操作
                 } else if (choice == 4) {
                     System.out.println("正在返回上级菜单。");
                     exit = true; // 返回主菜单

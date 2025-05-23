@@ -8,7 +8,7 @@ import java.util.Scanner;
 /// 用户操作面版
 
 public class UserMenu {
-    public static void displayMenu(Scanner ioIn, Account loggedInAccount) {
+    public static void displayMenu(Scanner ioIn, Account loggedInAccount) {/// 传入ioin和已登录的账号
         int choice;
         boolean exit = false;
         while (!exit) {
@@ -19,6 +19,8 @@ public class UserMenu {
             System.out.println("3. 查看历史订单");
             System.out.println("4. 返回上级菜单"); // 假设的第四个选项
             System.out.print("请输入您的选择：");
+            // TODO: 实现会员的够买
+
 
             if (ioIn.hasNextInt()) {
                 choice = ioIn.nextInt();
