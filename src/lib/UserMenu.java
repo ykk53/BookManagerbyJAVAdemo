@@ -1,13 +1,18 @@
 package lib;
 
+import data.Account;
+import data.Book;
+
 import java.util.Scanner;
 
+
+
 public class UserMenu {
-    public static void displayMenu(Scanner ioIn) {
+    public static void displayMenu(Scanner ioIn, Account loggedInAccount) {
         int choice;
         boolean exit = false;
         while (!exit) {
-            System.out.println("\n欢迎来到用户操作界面");
+            System.out.println("\n欢迎来到用户操作界面，" + loggedInAccount.getUserName() + "！");
             System.out.println("请选择操作：");
             System.out.println("1. 查看书库");
             System.out.println("2. 查看购物车");
@@ -21,7 +26,11 @@ public class UserMenu {
 
                 if (choice == 1) {
                     System.out.println("正在进入藏书库。");
-                    // TODO: 实现查看书库界面的逻辑
+                    Book selectedBook =  BooksFunction.displayBook(ioIn);
+                    if (selectedBook != null) {
+                        loggedInAccount.addBookToCart(selectedBook);
+                        System.out.println("书籍 '" + selectedBook.getName() + "' 已添加到您的购物车。");
+                    }
                 } else if (choice == 2) {
                     System.out.println("正在查看购物车。");
                     // TODO: 实现查看购物车界面的逻辑

@@ -1,19 +1,15 @@
-import lib.MainMenu;
-import lib.SUSignMenu;
-import lib.UserRegisterMenu;
-import lib.UserSignMenu;
+import data.Account;
+import lib.*;
 
 public class Main {
     public static void main(String[] args) {
         /// 初始化菜单
-        SUSignMenu suSignMenu = new SUSignMenu();
-        UserSignMenu userSignMenu = new UserSignMenu();
-        UserRegisterMenu userRegisterMenu = new UserRegisterMenu();
         MainMenu mainMenu = new MainMenu();
-        /// 初始化用户账号存储表
-
+        /// 初始化用户账号存储哈希表
+        InputData.inputUser();
+        /// 初始化图书存储哈希表
+        InputData.inputBook();
         /// 进入主菜单
         mainMenu.displayMenu();
-
     }
 }

@@ -7,8 +7,7 @@ public class Book {
     private String name;
     private double price;
     private BookType type;
-
-    //TODO: 唯一标识符 ID 暂时留空
+    private int bookID;
 
     public Book(String name, double price, BookType type) {
         this.name = name;

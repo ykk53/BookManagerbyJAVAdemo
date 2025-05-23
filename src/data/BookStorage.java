@@ -1,7 +1,9 @@
 package data;
 
-import java.util.Map;
+import java.util.*;
 
 public class BookStorage {
-    private Map<Integer, Book> books;
+    public static Map<String, Book> books = new HashMap<>();
+
 }
+

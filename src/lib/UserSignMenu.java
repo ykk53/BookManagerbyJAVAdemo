@@ -31,9 +31,10 @@ public class UserSignMenu {
                         Account account = AccountStorage.accounts.get(userName);
                         if (account.getPassword().equals(password))
                         {
-                            /// 进入用户界面
-                            UserMenu.displayMenu(ioIn);
-                            exit = true; /// 暂时登录成功后退出登录界面
+                            System.out.println("\n登录成功！欢迎您，" + account.getUserName() + "！");
+                            /// 进入用户界面,并导入成功登入的用户
+                            UserMenu.displayMenu(ioIn,account);
+                            exit = true; /// 登录成功后退出登录界面
                             break;
                         }///判断密码是否正确
                         else{
