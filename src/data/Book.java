@@ -1,7 +1,6 @@
 package data;
-
 import com.sun.xml.internal.bind.v2.TODO;
-
+/// 书籍类型
 public class Book {
     /// 书籍属性
     private String name;

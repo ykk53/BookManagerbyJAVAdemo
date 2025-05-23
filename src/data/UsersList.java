@@ -1,8 +1,7 @@
 package data;
-
 import java.util.ArrayList;
 import java.util.List;
-
+/// 程序内静态存储的用户数据
 public class UsersList {
     public static List<Account> initialUsers = new ArrayList<>();
 

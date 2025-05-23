@@ -1,8 +1,7 @@
 package data;
-
 import java.util.ArrayList;
 import java.util.List;
-
+/// 程序内部静态存储的书籍
 public class BooksList {
     public static List<Book> initialBooks = new ArrayList<>();
 

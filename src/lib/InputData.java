@@ -2,6 +2,7 @@ package lib;
 
 import data.*;
 import java.util.List;
+/// 初始化程序导入预存储的数据，可拓展从数据库导入
 
 public class InputData {
 

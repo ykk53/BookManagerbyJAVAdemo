@@ -1,5 +1,5 @@
 package data;
-
+/// 图书类别
 public enum BookType {
     LITERATURE_FICTION ,/// 文学
     SCIENCE_TECHNOLOGY_PROGRAMMING,/// 科学

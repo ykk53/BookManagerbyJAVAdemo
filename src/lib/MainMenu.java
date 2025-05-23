@@ -1,7 +1,7 @@
 package lib;
 
 import java.util.Scanner;
-
+/// 主菜单  登入 注册 退出
 public class MainMenu {
     public void displayMenu() {
         Scanner ioIn = new Scanner(System.in);

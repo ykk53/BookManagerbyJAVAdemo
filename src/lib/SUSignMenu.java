@@ -1,7 +1,8 @@
 package lib;
 
 import java.util.Scanner;
-
+/// 管理员登入验证 静态存储了一个管理员账号
+/// 账号： root 密码： admin
 public class SUSignMenu {
     public static void displayMenu(Scanner ioIn) {
         int choice;

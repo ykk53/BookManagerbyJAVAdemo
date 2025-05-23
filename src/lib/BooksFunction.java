@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-/// 存放所有对图书进行管理的操作
+/// 存放所有对图书进行管理的操作 包括 增加 删除 查看列表 管理菜单
 public class BooksFunction {
 
     public static Book displayBook(Scanner ioIn){

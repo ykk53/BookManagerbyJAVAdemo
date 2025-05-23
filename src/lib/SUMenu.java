@@ -1,7 +1,6 @@
 package lib;
-
 import java.util.Scanner;
-
+///管理员操作选择面板 图书管理 订单管理 用户管理
 public class SUMenu {
     public static void displayMenu(Scanner ioIn) {
         int choice;
