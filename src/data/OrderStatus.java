@@ -1,9 +1,10 @@
 package data;
 
 public enum OrderStatus {
-    PLACED_AWAITING_SHIPMENT("已下单待发货"),
+    AWAITING_SHIPMENT("已下单待发货"),
     SHIPPED("已发货"),
-    DELIVERED("已送达");
+    COMPLETED("订单已完成"),
+    CANCELLED("已取消");
 
     private final String displayName;
 

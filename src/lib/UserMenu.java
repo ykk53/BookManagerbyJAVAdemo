@@ -17,10 +17,9 @@ public class UserMenu {
             System.out.println("1. 查看书库");
             System.out.println("2. 查看购物车");
             System.out.println("3. 查看历史订单");
-            System.out.println("4. 返回上级菜单"); // 假设的第四个选项
+            System.out.println("4. 升级会员等级");
+            System.out.println("0. 返回上级菜单"); // 假设的第四个选项
             System.out.print("请输入您的选择：");
-            // TODO: 实现会员的够买
-
 
             if (ioIn.hasNextInt()) {
                 choice = ioIn.nextInt();
@@ -37,9 +36,12 @@ public class UserMenu {
                     System.out.println("正在查看购物车。");
                     ShoppingCartMenu.display(ioIn,loggedInAccount);
                 } else if (choice == 3) {
-                    System.out.println("正在查看历史订单历史订单。");
-                    // TODO: 实现查看历史订单界面的逻辑
+                    System.out.println("正在查看历史订单。");
+                    OrderFunction.displayOrder(ioIn, loggedInAccount);
                 } else if (choice == 4) {
+                    System.out.println("正在进入会员等级升级界面。");
+                    VIPLevelUpgradeMenu.display(ioIn, loggedInAccount);
+                } else if (choice == 0) {
                     System.out.println("正在返回上级菜单。");
                     exit = true; // 返回主菜单
                     break;

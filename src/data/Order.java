@@ -42,9 +42,12 @@ public class Order {
         return orderStatus;
     }
 
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
     public List<Book> getOrderItems() {
         return orderItems;
     }
-
     // 可以根据需要添加 setter 方法或者其他操作方法
 }

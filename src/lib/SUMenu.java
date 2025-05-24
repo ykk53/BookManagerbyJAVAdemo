@@ -1,4 +1,7 @@
 package lib;
+import data.Account;
+import data.Order;
+
 import java.util.Scanner;
 ///管理员操作选择面板 图书管理 订单管理 用户管理
 public class SUMenu {
@@ -17,16 +20,21 @@ public class SUMenu {
             if (ioIn.hasNextInt()) {
                 choice = ioIn.nextInt();
                 ioIn.nextLine();
-
                 if (choice == 1) {
                     System.out.println("正在进入书籍管理系统");
                     BooksFunction.displayMenu(ioIn);
                 } else if (choice == 2) {
                     System.out.println("正在进入订单管理系统");
-                    // TODO: 实现对指定用户的订单的管理or实现对订单统一管理
+                    while(true){
+                        Order selectedOrder = OrderFunction.displayOrders(ioIn);
+                        if(selectedOrder == null) break;
+                        else {
+                            OrderFunction.orderOperation(ioIn, selectedOrder);
+                        }
+                    }
                 } else if (choice == 3) {
                     System.out.println("正在进入用户管理系统");
-                    // TODO: 对用户的账号进行操作
+                    UserManage.displayMenu(ioIn);
                 } else if (choice == 4) {
                     System.out.println("正在返回上级菜单。");
                     exit = true; // 返回主菜单

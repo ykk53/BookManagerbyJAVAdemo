@@ -1,6 +1,6 @@
 package data;
 /// 用户等级
-public enum MembershipLevel {
+public enum VIPLevel {
     NORMAL,
     SILVER,
     GOLD,
