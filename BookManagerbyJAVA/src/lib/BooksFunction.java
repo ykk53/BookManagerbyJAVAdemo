@@ -215,6 +215,7 @@ public class BooksFunction {
                     System.out.println("请选择操作：");
                     System.out.println("1. 删除书籍");
                     System.out.println("2. 修改书籍价格");
+                    System.out.println("0. 返回"); // 修改为返回
 
                     int subChoice;
                     if (ioIn.hasNextInt()) {
@@ -243,7 +244,11 @@ public class BooksFunction {
                                 System.out.println("价格格式错误，请重新输入。");
                             }
                             exit = false; // 退出管理菜单
-                        } else {
+                        }
+                        else if (subChoice == 0) {  
+                            exit = false; // 退出管理菜单
+                        }
+                        else {
                             System.out.println("无效的选择，请重新输入。");
                         }
                     } else {
