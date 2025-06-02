@@ -66,8 +66,23 @@ public class BooksFunction {
                     System.out.println("返回。");
                     return null; // 返回 null 表示没有选择书籍或退出
                 } else if (choice == 10) {
-                    // 筛选功能
-                    BookFilterType(ioIn);
+                    System.out.println("请输入筛选方式：");
+                    System.out.println("1. 按类型筛选");
+                    System.out.println("2. 按价格筛选");
+                    System.out.println("3. 按关键字筛选");
+                    int choice2 = ioIn.nextInt();
+                    if (choice2 == 1) {
+                        return BookFilterType(ioIn);
+                    }
+                    else if (choice2 == 2) {
+                        return BookFilterPrice(ioIn);
+                    }
+                    else if (choice2 == 3) {
+                        return BookFilterKeyword(ioIn);
+                    }
+                    else {
+                        System.out.println("无效的选择，请重新输入。");
+                    }
                 }
                 else {
                     System.out.println("无效的选择，请重新输入。");
@@ -288,38 +303,282 @@ public class BooksFunction {
         }
     }
 
-    public static void BookFilterType(Scanner ioIn){
-        List<Book> allBooks = new ArrayList<>( BookStorage.books.values());
-        if (allBooks.isEmpty()){
-            System.out.println("\n书库中暂时没有书籍。");
-        }
+    public static Book BookFilterType(Scanner ioIn) {
+        System.out.println("请选择要筛选的书籍类型 (输入对应的数字)：");
         BookType[] types = BookType.values();
         for (int i = 0; i < types.length; i++) {
             System.out.println((i + 1) + ". " + types[i]);
         }
-        System.out.println("请输入要筛选的书籍类型：");
-        int typeChoice = ioIn.nextInt();
-        BookType selectedType;
-        if (typeChoice >= 1 && typeChoice <= types.length) {
-            selectedType = types[typeChoice - 1];
+
+        int typeChoice;
+        BookType selectedType = null;
+        if (ioIn.hasNextInt()) {
+            typeChoice = ioIn.nextInt();
+            ioIn.nextLine(); // Consume newline
+            if (typeChoice >= 1 && typeChoice <= types.length) {
+                selectedType = types[typeChoice - 1];
+            } else {
+                System.out.println("无效的类型选择，请重新输入。");
+                return null;
+            }
         } else {
-            System.out.println("无效的类型选择，请重新输入。");
-            return;
+            System.out.println("类型选择格式错误，请重新输入。");
+            ioIn.nextLine(); // Consume invalid input
+            return null;
         }
-        List<Book> filterBooks = new ArrayList<>();
-        for(Book book:allBooks){
-            if(book.getType().equals(selectedType)){
-                filterBooks.add(book);
+
+        int pageSize = 7;
+        int pageNow = 0;
+        List<Book> filteredBooks = new ArrayList<>();
+        for (Book book : BookStorage.books.values()) {
+            if (book.getType() == selectedType) {
+                filteredBooks.add(book);
             }
         }
-        if(filterBooks.isEmpty()){
-            System.out.println("没有找到符合条件的书籍。");
-        }else{
-            System.out.println("以下是符合条件的书籍：");
-            for(Book book:filterBooks){
-                System.out.println(book.getName());
+
+        if (filteredBooks.isEmpty()) {
+            System.out.println("\n未找到该类型的书籍。");
+            return null;
+        }
+
+        int totalPages = (int) Math.ceil((double) filteredBooks.size() / pageSize);
+
+        while (true) {
+            System.out.println("\n--- 筛选结果 (第 " + (pageNow + 1) + " 页，共 " + totalPages + " 页) ---");
+
+            int startIndex = pageNow * pageSize;
+            int endIndex = Math.min(startIndex + pageSize, filteredBooks.size());
+
+            for (int i = startIndex; i < endIndex; i++) {
+                Book book = filteredBooks.get(i);
+                System.out.println((i - startIndex + 1) + ". 书名: " + book.getName() + ", 价格: " + book.getPrice() + ", 类型: " + book.getType());
+            }
+
+            System.out.println("\n请选择操作：");
+            System.out.println("输入 1-" + Math.min(pageSize, filteredBooks.size() - startIndex) + " 选择书籍");
+            System.out.println("输入 8 查看下一页");
+            System.out.println("输入 9 查看上一页");
+            System.out.println("输入 0 返回");
+            System.out.print("请输入您的选择：");
+
+            if (ioIn.hasNextInt()) {
+                int choice = ioIn.nextInt();
+                ioIn.nextLine(); // 读取换行符
+
+                if (choice >= 1 && choice <= Math.min(pageSize, filteredBooks.size() - startIndex)) {
+                    // 用户选择了书籍
+                    Book selectedBook = filteredBooks.get(startIndex + choice - 1);
+                    System.out.println("您选择了书籍：" + selectedBook.getName());
+                    return selectedBook; // 返回选中的书籍
+                } else if (choice == 8) {
+                    // 查看下一页
+                    if (pageNow < totalPages - 1) {
+                        pageNow++;
+                    } else {
+                        System.out.println("已是最后一页。");
+                    }
+                } else if (choice == 9) {
+                    // 查看上一页
+                    if (pageNow > 0) {
+                        pageNow--;
+                    } else {
+                        System.out.println("已是第一页。");
+                    }
+                } else if (choice == 0) {
+                    // 退出
+                    System.out.println("返回。");
+                    break;
+                } else {
+                    System.out.println("无效的选择，请重新输入。");
+                }
+            } else {
+                System.out.println("输入格式错误，请输入数字。");
+                ioIn.nextLine(); // 清空缓冲区
             }
         }
-    }    
-}//按类型筛选书籍
+        return null;
+    }//按类型筛选书籍    
+
+    public static Book BookFilterPrice(Scanner ioIn) {
+        System.out.println("请输入最低价格：");
+        double minPrice;
+        if (ioIn.hasNextDouble()) {
+            minPrice = ioIn.nextDouble();
+            ioIn.nextLine(); // 清空缓冲区
+        } else {
+            System.out.println("价格格式错误，请重新输入。");
+            ioIn.nextLine(); // 清空缓冲区
+            return null;
+        }
+
+        System.out.println("请输入最高价格：");
+        double maxPrice;
+        if (ioIn.hasNextDouble()) {
+            maxPrice = ioIn.nextDouble();
+            ioIn.nextLine(); // 清空缓冲区
+        } else {
+            System.out.println("价格格式错误，请重新输入。");
+            ioIn.nextLine(); // 清空缓冲区
+            return null;
+        }
+
+        int pageSize = 7;
+        int pageNow = 0;
+        List<Book> filteredBooks = new ArrayList<>();
+        for (Book book : BookStorage.books.values()) {
+            if (book.getPrice() >= minPrice && book.getPrice() <= maxPrice) {
+                filteredBooks.add(book);
+            }
+        }
+
+        if (filteredBooks.isEmpty()) {
+            System.out.println("\n未找到符合价格范围的书籍。");
+            return null;
+        }
+
+        int totalPages = (int) Math.ceil((double) filteredBooks.size() / pageSize);
+
+        while (true) {
+            System.out.println("\n--- 筛选结果 (第 " + (pageNow + 1) + " 页，共 " + totalPages + " 页) ---");
+
+            int startIndex = pageNow * pageSize;
+            int endIndex = Math.min(startIndex + pageSize, filteredBooks.size());
+
+            for (int i = startIndex; i < endIndex; i++) {
+                Book book = filteredBooks.get(i);
+                System.out.println((i - startIndex + 1) + ". 书名: " + book.getName() + ", 价格: " + book.getPrice() + ", 类型: " + book.getType());
+            }
+
+            System.out.println("\n请选择操作：");
+            System.out.println("输入 1-" + Math.min(pageSize, filteredBooks.size() - startIndex) + " 选择书籍");
+            System.out.println("输入 8 查看下一页");
+            System.out.println("输入 9 查看上一页");
+            System.out.println("输入 0 返回");
+            System.out.print("请输入您的选择：");
+
+            if (ioIn.hasNextInt()) {
+                int choice = ioIn.nextInt();
+                ioIn.nextLine(); // 读取换行符
+
+                if (choice >= 1 && choice <= Math.min(pageSize, filteredBooks.size() - startIndex)) {
+                    // 用户选择了书籍
+                    Book selectedBook = filteredBooks.get(startIndex + choice - 1);
+                    System.out.println("您选择了书籍：" + selectedBook.getName());
+                    return selectedBook; // 返回选中的书籍
+                } else if (choice == 8) {
+                    // 查看下一页
+                    if (pageNow < totalPages - 1) {
+                        pageNow++;
+                    } else {
+                        System.out.println("已是最后一页。");
+                    }
+                } else if (choice == 9) {
+                    // 查看上一页
+                    if (pageNow > 0) {
+                        pageNow--;
+                    } else {
+                        System.out.println("已是第一页。");
+                    }
+                } else if (choice == 0) {
+                    // 退出
+                    System.out.println("返回。");
+                    break;
+                } else {
+                    System.out.println("无效的选择，请重新输入。");
+                }
+            } else {
+                System.out.println("输入格式错误，请输入数字。");
+                ioIn.nextLine(); // 清空缓冲区
+                return null;
+            }
+        }
+        return null;
+    }//按价格筛选书籍
+
+    public static Book BookFilterKeyword(Scanner ioIn) {
+        System.out.println("请输入关键字：");
+        String keyword = ioIn.nextLine();
+        if (ioIn.hasNextLine()) {
+            keyword = ioIn.nextLine(); // 读取下一行作为关键字
+        } else {
+            System.out.println("关键字格式错误，请重新输入。");
+            ioIn.nextLine(); // 清空缓冲区
+            return null;
+        }
+
+        int pageSize = 7;
+        int pageNow = 0;
+        List<Book> filteredBooks = new ArrayList<>();
+        // 遍历书库中的所有书籍
+        for (Book book : BookStorage.books.values()) {
+            // 如果书籍名称包含用户输入的关键字，则将其添加到筛选列表中
+            if (book.getName().contains(keyword)) {
+                filteredBooks.add(book);
+            }
+        }
+
+        // 如果筛选结果为空，提示用户未找到相关书籍并返回
+        if (filteredBooks.isEmpty()) {
+            System.out.println("\n未找到包含关键字的书籍。");
+            return null;
+        }
+
+        int totalPages = (int) Math.ceil((double) filteredBooks.size() / pageSize);
+
+        while (true) {
+            System.out.println("\n--- 筛选结果 (第 " + (pageNow + 1) + " 页，共 " + totalPages + " 页) ---");
+            int startIndex = pageNow * pageSize;
+            int endIndex = Math.min(startIndex + pageSize, filteredBooks.size());
+
+            // 遍历当前页的书籍并显示信息
+            for (int i = startIndex; i < endIndex; i++) {
+                Book book = filteredBooks.get(i);
+                System.out.println((i - startIndex + 1) + ". 书名: " + book.getName() + ", 价格: " + book.getPrice() + ", 类型: " + book.getType());
+            }
+
+            System.out.println("\n请选择操作：");
+            System.out.println("输入 1-" + Math.min(pageSize, filteredBooks.size() - startIndex) + " 选择书籍");
+            System.out.println("输入 8 查看下一页");
+            System.out.println("输入 9 查看上一页");
+            System.out.println("输入 0 返回");
+            System.out.print("请输入您的选择：");
+
+            // 检查输入是否为整数
+            if (ioIn.hasNextInt()) {
+                int choice = ioIn.nextInt();
+                ioIn.nextLine(); 
+
+                // 根据用户选择执行相应操作
+                if (choice >= 1 && choice <= Math.min(pageSize, filteredBooks.size() - startIndex)) {
+                    // 用户选择了书籍
+                    Book selectedBook = filteredBooks.get(startIndex + choice - 1);
+                    System.out.println("您选择了书籍：" + selectedBook.getName());
+                    return selectedBook; // 返回选中的书籍
+                } else if (choice == 8) {
+                    if (pageNow < totalPages - 1) {
+                        pageNow++;
+                    } else {
+                        System.out.println("已是最后一页。");
+                    }
+                } else if (choice == 9) {
+                    if (pageNow > 0) {
+                        pageNow--;
+                    } else {
+                        System.out.println("已是第一页。");
+                    }
+                } else if (choice == 0) {
+                    System.out.println("返回。");
+                    break;
+                } else {
+                    System.out.println("无效的选择，请重新输入。");
+                }
+            } else {
+                System.out.println("输入格式错误，请输入数字。");
+                ioIn.nextLine(); // 清空输入流中的无效输入
+                return null;
+            }
+        }
+        return null;
+    }//按关键字筛选书籍 
+}
 
