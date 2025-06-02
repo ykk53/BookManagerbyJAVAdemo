@@ -39,6 +39,9 @@ public class OrderFunction {
         // 将订单 ID 添加到用户的订单历史中
         loggedInAccount.addOrderToHistory(orderId);
 
+        // 将订单 ID 添加到 OrderStorage 的 orderIdList 中
+        OrderStorage.orderIdList.add(orderId);
+
         // 清空用户的购物车
         loggedInAccount.getShoppingCart().clear();
 
