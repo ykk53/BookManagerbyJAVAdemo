@@ -85,12 +85,16 @@ public class Account {
         switch (level) {
             case NORMAL:
                 p = 0.0;
+                break;
             case SILVER:
                 p = 199;
+                break;
             case GOLD:
                 p = 399;
+                break;
             case DIAMOND:
                 p = 799;
+                break;
         }
         return p;
     }
@@ -99,12 +103,16 @@ public class Account {
         switch (this.VIPLevel) {
             case NORMAL:
                 p = 0.0;
+                break;
             case SILVER:
                 p = 199;
+                break;
             case GOLD:
                 p = 399;
+                break;
             case DIAMOND:
                 p = 799;
+                break;
         }
         return p;
     }

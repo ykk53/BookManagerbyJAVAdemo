@@ -43,7 +43,7 @@ public class CheckoutShoppingCart {
                 System.out.println("当前所需邮费为" + ShippingCoupons + " 元");
             }
         } else {
-            System.out.println("已取消结算。");
+            System.out.println("已取消使用邮费券。");
         }
         //TODO：支付价格（暂时不实现）
         System.out.print("\n确认要结算并生成订单吗？(y/n): ");///判断结算
@@ -52,6 +52,7 @@ public class CheckoutShoppingCart {
             OrderFunction.createOrderFromCart(loggedInAccount, cart, discountedPrice+ShippingCoupons); // 调用 OrderFunction.checkout 生成订单
         } else {
             System.out.println("已取消结算。");
+            loggedInAccount.setFreeShippingCoupons(loggedInAccount.getFreeShippingCoupons()+1);
         }
     }
 
