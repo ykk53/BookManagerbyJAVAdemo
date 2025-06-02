@@ -12,6 +12,8 @@ public class InputData {
         for (Account user : users) {
             AccountStorage.accounts.put(user.getUserName(), user);
         }
+        Account account = AccountStorage.accounts.get("test");
+        account.setMembershipLevel(VIPLevel.NORMAL);
         System.out.println("初始用户数据导入完成。");
     }
 

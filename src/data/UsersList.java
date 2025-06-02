@@ -7,7 +7,7 @@ public class UsersList {
 
     static {
         initialUsers.add(new Account("testuser1", "password"));
-        initialUsers.add(new Account("testuser2", "secure"));
+        initialUsers.add(new Account("test", "pass"));
     }
 
     public static List<Account> getInitialUsers() {

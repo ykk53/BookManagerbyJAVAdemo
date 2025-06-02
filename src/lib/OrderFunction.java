@@ -50,17 +50,18 @@ public class OrderFunction {
         System.out.println("感谢您的购买！");
 
     }
-    public static void displayOrder(Scanner ioIn, Account loggedInAccount) {
+    public static Order displayOrder(Scanner ioIn, Account loggedInAccount) { // 修改返回类型为 Order
         List<String> orderIds = loggedInAccount.getOrderHistory();
         int pageSize = 7; // 设置每页显示的订单数量
         int pageNow = 0;
         if (orderIds.isEmpty()) {
             System.out.println("\n您还没有任何订单记录。");
-            return;
+            return null; // 返回 null 表示没有订单
         }
         int totalPages = (int) Math.ceil((double) orderIds.size() / pageSize);
+        Order selectedOrder = null;
 
-        while (true) {
+        while (selectedOrder == null) {
             System.out.println("\n--- 您的订单历史 (第 " + (pageNow + 1) + " 页，共 " + totalPages + " 页) ---");
 
             int startIndex = pageNow * pageSize;
@@ -77,6 +78,7 @@ public class OrderFunction {
             }
 
             System.out.println("\n请选择操作：");
+            System.out.println("输入 1-" + Math.min(pageSize, orderIds.size() - startIndex) + " 查看订单详情");
             System.out.println("输入 8 查看下一页");
             System.out.println("输入 9 查看上一页");
             System.out.println("输入 0 返回用户操作界面");
@@ -86,32 +88,36 @@ public class OrderFunction {
                 int choice = ioIn.nextInt();
                 ioIn.nextLine(); // 读取换行符
 
-                if (choice == 8) {
-                    // 查看下一页
+                if (choice >= 1 && choice <= Math.min(pageSize, orderIds.size() - startIndex)) {
+                    String orderId = orderIds.get(startIndex + choice - 1);
+                    selectedOrder = OrderStorage.orders.get(orderId);
+                    break; // 返回选中的订单
+                } else if (choice == 8) {
                     if (pageNow < totalPages - 1) {
                         pageNow++;
                     } else {
                         System.out.println("已是最后一页。");
                     }
                 } else if (choice == 9) {
-                    // 查看上一页
                     if (pageNow > 0) {
                         pageNow--;
                     } else {
                         System.out.println("已是第一页。");
                     }
-                } else if (choice == 0) {
-                    // 退出
-                    System.out.println("返回用户操作界面。");
-                    break;
-                } else {
-                    System.out.println("无效的选择，请重新输入。");
-                }
+                }else if (choice == 0) {
+                        System.out.println("返回用户操作界面。");
+                        break; // 返回 null
+                    }
+                else {
+                        System.out.println("无效的选择，请重新输入。");
+                    }
             } else {
-                System.out.println("输入格式错误，请输入数字。");
-                ioIn.nextLine(); // 清空缓冲区
+                    System.out.println("输入格式错误，请输入数字。");
+                    ioIn.nextLine(); // 清空缓冲区
             }
+
         }
+        return selectedOrder;
     }///用户查看订单
     public static Order displayOrders(Scanner ioIn) {
         int pageSize = 7;

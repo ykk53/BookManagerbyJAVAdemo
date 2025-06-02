@@ -2,6 +2,7 @@ package lib;
 
 import data.Account;
 import data.Book;
+import data.Order;
 
 import java.util.Scanner;
 
@@ -50,7 +51,13 @@ public class UserMenu {
                     ShoppingCartMenu.display(ioIn,loggedInAccount);
                 } else if (choice == 3) {
                     System.out.println("正在查看历史订单。");
-                    OrderFunction.displayOrder(ioIn, loggedInAccount);
+                    while(true){
+                        Order selectedOrder = OrderFunction.displayOrder(ioIn, loggedInAccount);
+                        if(selectedOrder == null) break;
+                        else {
+                            OrderFunction.bookList(ioIn ,selectedOrder);
+                        }
+                    }
                 } else if (choice == 4) {
                     System.out.println("正在进入会员等级升级界面。");
                     VIPLevelUpgradeMenu.display(ioIn, loggedInAccount);
