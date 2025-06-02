@@ -19,7 +19,7 @@ public class Account {
     public Account(String userName, String password){/// 构造函数进行用户初始化
         this.userName = userName;
         this.password = password;
-        this.VIPLevel = NORMAL;
+        this.VIPLevel = UNEXAMINED;
         this.shoppingCart = new ArrayList<>();
         this.orderHistory = new ArrayList<>();
         setFreeShippingCoupons();

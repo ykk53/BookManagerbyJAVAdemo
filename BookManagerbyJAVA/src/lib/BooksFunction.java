@@ -35,6 +35,7 @@ public class BooksFunction {
             System.out.println("输入 1-" + Math.min(pageSize, allBooks.size() - startIndex) + " 选择书籍");
             System.out.println("输入 8 查看下一页");
             System.out.println("输入 9 查看上一页");
+            System.out.println("输入 10 进行筛选"); // 修改为返回
             System.out.println("输入 0 返回"); // 修改为返回
             System.out.print("请输入您的选择：");
 
@@ -64,7 +65,11 @@ public class BooksFunction {
                     // 退出
                     System.out.println("返回。");
                     return null; // 返回 null 表示没有选择书籍或退出
-                } else {
+                } else if (choice == 10) {
+                    // 筛选功能
+                    BookFilterType(ioIn);
+                }
+                else {
                     System.out.println("无效的选择，请重新输入。");
                 }
             } else {
@@ -283,5 +288,38 @@ public class BooksFunction {
         }
     }
 
-}
+    public static void BookFilterType(Scanner ioIn){
+        List<Book> allBooks = new ArrayList<>( BookStorage.books.values());
+        if (allBooks.isEmpty()){
+            System.out.println("\n书库中暂时没有书籍。");
+        }
+        BookType[] types = BookType.values();
+        for (int i = 0; i < types.length; i++) {
+            System.out.println((i + 1) + ". " + types[i]);
+        }
+        System.out.println("请输入要筛选的书籍类型：");
+        int typeChoice = ioIn.nextInt();
+        BookType selectedType;
+        if (typeChoice >= 1 && typeChoice <= types.length) {
+            selectedType = types[typeChoice - 1];
+        } else {
+            System.out.println("无效的类型选择，请重新输入。");
+            return;
+        }
+        List<Book> filterBooks = new ArrayList<>();
+        for(Book book:allBooks){
+            if(book.getType().equals(selectedType)){
+                filterBooks.add(book);
+            }
+        }
+        if(filterBooks.isEmpty()){
+            System.out.println("没有找到符合条件的书籍。");
+        }else{
+            System.out.println("以下是符合条件的书籍：");
+            for(Book book:filterBooks){
+                System.out.println(book.getName());
+            }
+        }
+    }    
+}//按类型筛选书籍
 
