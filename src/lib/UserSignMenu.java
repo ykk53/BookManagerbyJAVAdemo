@@ -2,6 +2,7 @@ package lib;
 
 import data.Account;
 import data.AccountStorage;
+import data.VIPLevel;
 
 import java.util.Scanner;
 /// 实现用户登入的面板
@@ -31,11 +32,17 @@ public class UserSignMenu {
                         Account account = AccountStorage.accounts.get(userName);
                         if (account.getPassword().equals(password))
                         {
+                            if (account.getMembershipLevel() == VIPLevel.UNEXAMINED) {
+                                System.out.println("\n您的账户尚未通过审核，请耐心等待。");
+                                break;
+                            }
+                            else{
                             System.out.println("\n登录成功！欢迎您，" + account.getUserName() + "！");
                             /// 进入用户界面,并导入成功登入的用户
                             UserMenu.displayMenu(ioIn,account);
                             exit = true; /// 登录成功后退出登录界面
                             break;
+                            }
                         }///判断密码是否正确
                         else{
                             System.out.println("\n密码错误，请重新尝试。");

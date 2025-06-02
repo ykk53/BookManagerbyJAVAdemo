@@ -10,6 +10,7 @@ public class ShoppingCartMenu {
     public static void display(Scanner ioIn, Account loggedInAccount){
         int choice;
         boolean exit = false;
+        double TotalPrice = 0;
         while (!exit) {
             System.out.println("\n--- 您的购物车 ---");
             List<Book> cart = loggedInAccount.getShoppingCart();
@@ -19,7 +20,10 @@ public class ShoppingCartMenu {
                 for (int i = 0; i < cart.size(); i++) {
                     Book book = cart.get(i);
                     System.out.println((i + 1) + ". 书名: " + book.getName() + ", 价格: " + book.getPrice() + ", 类型: " + book.getType());
+                    TotalPrice += book.getPrice();
                 }
+                System.out.println("-");
+                System.out.println("商品总价: " + String.format("%.2f", TotalPrice) + " 元");
             }
 
             System.out.println("\n请选择操作：");
@@ -36,8 +40,9 @@ public class ShoppingCartMenu {
                     System.out.println("正在进入购物车图书删除界面");
                     RemoveShoppingCartBook.removeItemFromCart(ioIn, loggedInAccount);
                 }else if (choice == 2) {
-                    System.out.println("您选择了前往结算 (功能待实现)。");
                     CheckoutShoppingCart.checkout(ioIn, loggedInAccount);
+                    exit = true;
+                    break;
                 } else if (choice == 0) {
                     System.out.println("返回用户菜单。");
                     exit = true;

@@ -12,6 +12,7 @@ public class UserMenu {
         int choice;
         boolean exit = false;
         while (!exit) {
+            boolean ifExit = false;
             System.out.println("\n欢迎来到用户操作界面，" + loggedInAccount.getUserName() + "！");
             System.out.println("请选择操作：");
             System.out.println("1. 查看书库");
@@ -27,10 +28,22 @@ public class UserMenu {
 
                 if (choice == 1) {
                     System.out.println("正在进入藏书库。");
-                    Book selectedBook =  BooksFunction.displayBook(ioIn);
-                    if (selectedBook != null) {
-                        loggedInAccount.addBookToCart(selectedBook);
-                        System.out.println("书籍 '" + selectedBook.getName() + "' 已添加到您的购物车。");
+                    while (ifExit == false) {
+                        Book selectedBook =  BooksFunction.displayBook(ioIn);
+                        if (selectedBook != null) {
+                            loggedInAccount.addBookToCart(selectedBook);
+                            System.out.println("书籍 '" + selectedBook.getName() + "' 已添加到您的购物车。");
+                        }
+                        System.out.println("是否继续选择书籍？(y/n)");
+                        String input = ioIn.next();
+                        if (input.equals("n")) {
+                            ifExit = true;
+                        } else if (input.equals("y")) {
+                            ifExit = false;
+                        } else {
+                            System.out.println("无效的选择，请重新输入。");
+                            ioIn.nextLine(); // 清空缓冲区
+                        }
                     }
                 } else if (choice == 2) {
                     System.out.println("正在查看购物车。");

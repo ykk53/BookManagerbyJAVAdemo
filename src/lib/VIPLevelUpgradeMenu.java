@@ -39,6 +39,7 @@ public class VIPLevelUpgradeMenu {
                         loggedInAccount.setVIPLevel(SILVER);
                         loggedInAccount.setFreeShippingCoupons();
                         System.out.println("升级完成，谢谢惠顾");
+                        exit = true;
                         break;
                     case 2:
                         System.out.println("请支付差价");
@@ -46,6 +47,7 @@ public class VIPLevelUpgradeMenu {
                         loggedInAccount.setVIPLevel(GOLD);
                         loggedInAccount.setFreeShippingCoupons();
                         System.out.println("升级完成，谢谢惠顾");
+                        exit = true;
                         break;
                     case 3:
                         System.out.println("请支付差价");
@@ -53,6 +55,7 @@ public class VIPLevelUpgradeMenu {
                         loggedInAccount.setVIPLevel(DIAMOND);
                         loggedInAccount.setFreeShippingCoupons();
                         System.out.println("升级完成，谢谢惠顾");
+                        exit = true;
                         break;
                     case 0:
                         System.out.println("返回用户菜单。");

@@ -18,8 +18,9 @@ public class UserManage {
             System.out.println("\n--- 用户管理系统 ---");
             System.out.println("请选择操作：");
             System.out.println("1. 修改用户VIP等级");
-            System.out.println("2. (功能待定)");
-            System.out.println("3. (功能待定)");
+            System.out.println("2. 审核用户注册信息");
+            System.out.println("3. 修改用户权限");
+            System.out.println("4. 注销用户");
             System.out.println("0. 返回管理员菜单");
             System.out.print("请输入您的选择：");
 
@@ -38,10 +39,40 @@ public class UserManage {
                     }
                 } else if (choice == 2) {
                     System.out.println("该功能暂未实现。");
-                    // TODO: 审核用户注册信息
-                } else if (choice == 3) {
+                    System.out.println("您选择了审核用户注册信息");
+                    System.out.println("-");
+                    System.out.println("以下用户未经审核通过：");
+                    // TODO: 筛选未审核用户并显示
+                    boolean isexist = false;
+                    for (Account account : AccountStorage.accounts.values()) {
+                        if (account.getMembershipLevel() == VIPLevel.UNEXAMINED) {
+                            System.out.println(account.getUserName());
+                            isexist = true;
+                        }   
+                    }
+                    if (!isexist) {
+                        System.out.println("无符合条件的用户。");
+                    }
+                    else{
+                        System.out.println("请输入需要通过审核的用户名称：");
+                        String userName = ioIn.nextLine();
+                        Account account = AccountStorage.accounts.get(userName);
+                        if (account == null) {
+                            System.out.println("用户不存在。");
+                        } else if (account.getMembershipLevel() == VIPLevel.UNEXAMINED) {
+                            System.out.println("用户 " + account.getUserName() + " 已成功通过审核。");
+                            account.setMembershipLevel(VIPLevel.NORMAL);
+                        } else {
+                            System.out.println("用户 " + account.getUserName() + " 已通过审核。");
+                        }
+                    }
+                } 
+                else if (choice == 3) {
                     System.out.println("该功能暂未实现。");
                     // TODO: 修改用户权限
+                } else if (choice == 4) {
+                    System.out.println("您选择了注销用户。");
+                    deleteUser(ioIn);
                 } else if (choice == 0) {
                     System.out.println("返回管理员菜单。");
                     exit = true;
@@ -150,4 +181,20 @@ public class UserManage {
         }
         return null;
     }
+
+    public static void deleteUser(Scanner ioIn) {
+        Account selectedAccount = viewAllUsers(ioIn);
+        if (selectedAccount != null) {
+            System.out.println("您选择了注销用户 " + selectedAccount.getUserName() + "。");
+            System.out.println("是否确认注销该用户？(y/n): ");
+            String confirmation = ioIn.nextLine();
+            if (confirmation.equalsIgnoreCase("y")) {
+                AccountStorage.accounts.remove(selectedAccount.getUserName());
+                System.out.println("用户 " + selectedAccount.getUserName() + " 已成功注销。");
+            } else {
+                System.out.println("取消注销操作。");
+            }
+        }
+    }
+    
 }
