@@ -580,5 +580,79 @@ public class BooksFunction {
         }
         return null;
     }//按关键字筛选书籍 
+
+    public static void ChooseEBook(Scanner ioIn) {
+        int pageSize = 7;
+        int pageNow = 0;
+        // 筛选出所有电子书
+        List<Book> eBooks = new ArrayList<>();
+        for (Book book : BookStorage.books.values()) {
+            if (book.getType() == BookType.E_BOOK) {
+                eBooks.add(book);
+            }
+        }
+
+        if (eBooks.isEmpty()) {
+            System.out.println("\n暂无电子书可供选择。");
+            return;
+        }
+
+        int totalPages = (int) Math.ceil((double) eBooks.size() / pageSize);
+
+        while (true) {
+            System.out.println("\n--- 电子书库 (第 " + (pageNow + 1) + " 页，共 " + totalPages + " 页) ---");
+
+            int startIndex = pageNow * pageSize;
+            int endIndex = Math.min(startIndex + pageSize, eBooks.size());
+
+            for (int i = startIndex; i < endIndex; i++) {
+                Book book = eBooks.get(i);
+                System.out.println((i - startIndex + 1) + ". 书名: " + book.getName() + ", 价格: " + book.getPrice() + ", 类型: " + book.getType());
+            }
+
+            System.out.println("\n请选择操作：");
+            System.out.println("输入 1-" + Math.min(pageSize, eBooks.size() - startIndex) + " 选择电子书");
+            System.out.println("输入 8 查看下一页");
+            System.out.println("输入 9 查看上一页");
+            System.out.println("输入 0 返回");
+            System.out.print("请输入您的选择：");
+
+            if (ioIn.hasNextInt()) {
+                int choice = ioIn.nextInt();
+                ioIn.nextLine(); // 读取换行符
+
+                if (choice >= 1 && choice <= Math.min(pageSize, eBooks.size() - startIndex)) {
+                    // 用户选择了电子书
+                    Book selectedBook = eBooks.get(startIndex + choice - 1);
+                    System.out.println("您选择了电子书：" + selectedBook.getName());
+                    // 这里可以添加选择电子书后的其他逻辑，比如添加到用户的电子书列表等
+                    return;
+                } else if (choice == 8) {
+                    // 查看下一页
+                    if (pageNow < totalPages - 1) {
+                        pageNow++;
+                    } else {
+                        System.out.println("已是最后一页。");
+                    }
+                } else if (choice == 9) {
+                    // 查看上一页
+                    if (pageNow > 0) {
+                        pageNow--;
+                    } else {
+                        System.out.println("已是第一页。");
+                    }
+                } else if (choice == 0) {
+                    // 退出
+                    System.out.println("返回。");
+                    return;
+                } else {
+                    System.out.println("无效的选择，请重新输入。");
+                }
+            } else {
+                System.out.println("输入格式错误，请输入数字。");
+                ioIn.nextLine(); // 清空缓冲区
+            }
+        }
+    }
 }
 

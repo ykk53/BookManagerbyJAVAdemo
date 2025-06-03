@@ -55,6 +55,7 @@ public class VIPLevelUpgradeMenu {
                         loggedInAccount.setVIPLevel(DIAMOND);
                         loggedInAccount.setFreeShippingCoupons();
                         System.out.println("升级完成，谢谢惠顾");
+                        BooksFunction.ChooseEBook(ioIn);
                         exit = true;
                         break;
                     case 0:

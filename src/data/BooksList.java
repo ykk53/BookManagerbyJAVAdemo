@@ -13,6 +13,9 @@ public class BooksList {
         initialBooks.add(new Book("三体", 55.00, BookType.SCIENCE_TECHNOLOGY_PROGRAMMING));
         initialBooks.add(new Book("Effective Java", 68.00, BookType.SCIENCE_TECHNOLOGY_PROGRAMMING));
         initialBooks.add(new Book("平凡的世界", 45.00, BookType.LITERATURE_FICTION));
+        initialBooks.add(new Book("百年孤独", 10.00, BookType.E_BOOK));
+        initialBooks.add(new Book("活着", 10, BookType.E_BOOK));
+        initialBooks.add(new Book("Java编程思想", 10, BookType.E_BOOK));
     }
 
     public static List<Book> getInitialBooks() {
